@@ -29,6 +29,15 @@ export class TareaService {
     return tarea;
   }
 
+  async findTareasByEquipoId(id: number) {
+    const tareas = this.findAll();
+    const tareasByIdEquipo = (await tareas).filter(
+      (tareas) => tareas.idEquipo === id,
+    );
+    if (!tareasByIdEquipo) return [];
+    return tareasByIdEquipo;
+  }
+
   // update(id: number, updateTareaInput: UpdateTareaInput) {
   //   return `This action updates a #${id} tarea`;
   // }

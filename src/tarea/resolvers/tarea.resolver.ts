@@ -28,6 +28,11 @@ export class TareaResolver {
     return this.tareaService.findAll();
   }
 
+  @Query(() => [Tarea])
+  getTareasbyEquipoId(@Args('id', { type: () => Int }) id: number) {
+    return this.tareaService.findTareasByEquipoId(id);
+  }
+
   // @Query(() => Tarea, { name: 'tarea' })
   // findOne(@Args('id', { type: () => Int }) id: number) {
   //   return this.tareaService.findOne(id);
