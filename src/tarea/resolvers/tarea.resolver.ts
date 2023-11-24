@@ -35,12 +35,12 @@ export class TareaResolver {
   }
 
   @Query(() => Tarea)
-  findTareaOneById(@Args('id', { type: () => Int }) id: number) {
+  getTareaById(@Args('id', { type: () => Int }) id: number) {
     return this.tareaService.findOneById(id);
   }
 
   @Query(() => Tarea)
-  findTareaByEstado(@Args('estado') estado: string) {
+  getTareaByEstado(@Args('estado') estado: string) {
     return this.tareaService.findTareasByEstado(estado);
   }
 
