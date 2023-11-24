@@ -38,6 +38,15 @@ export class TareaService {
     return tareasByIdEquipo;
   }
 
+  async findTareasByEstado(estado: string) {
+    const tareas = this.findAll();
+    const tareasByEstado = (await tareas).filter(
+      (tareas) => tareas.estado === estado,
+    );
+    if (!tareasByEstado) return [];
+    return tareasByEstado;
+  }
+
   async updateTarea(updateTareaDto: UpdateTareaInput) {
     const tarea = await this.tareaRepository.preload({
       id: updateTareaDto.id,

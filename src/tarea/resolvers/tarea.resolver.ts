@@ -38,6 +38,11 @@ export class TareaResolver {
     return this.tareaService.findOneById(id);
   }
 
+  @Query(() => Tarea)
+  findTareaByEstado(@Args('estado') estado: string) {
+    return this.tareaService.findTareasByEstado(estado);
+  }
+
   @Mutation(() => Tarea)
   updateTarea(@Args('updateTareaInput') updateTareaInput: UpdateTareaInput) {
     return this.tareaService.updateTarea(updateTareaInput);
