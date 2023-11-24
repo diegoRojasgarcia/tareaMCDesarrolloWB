@@ -66,9 +66,12 @@ export class TareaService {
     }
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} tarea`;
-  // }
+  async remove(id: number) {
+    const tarea = await this.findOneById(id);
+    if (!tarea) throw new NotFoundException('Tarea not found');
+    this.tareaRepository.remove(tarea);
+    return tarea;
+  }
 
   // async forProyectoId(proyectoId: number) {
   //   const equipos = await this.equipoRepository.find();

@@ -13,6 +13,7 @@ import { Tarea } from '../entities/tarea.entity';
 import { CreateTareaInput } from '../dto/create-tarea.input';
 import { UpdateTareaInput } from '../dto/update-tarea.input';
 import { Equipo } from '../entities/equipos.entity';
+import { Delete } from '@nestjs/common';
 
 @Resolver(() => Tarea)
 export class TareaResolver {
@@ -46,6 +47,11 @@ export class TareaResolver {
   @Mutation(() => Tarea)
   updateTarea(@Args('updateTareaInput') updateTareaInput: UpdateTareaInput) {
     return this.tareaService.updateTarea(updateTareaInput);
+  }
+
+  @Mutation(() => Tarea)
+  removeTarea(@Args('id') id: number) {
+    return this.tareaService.remove(+id);
   }
 
   @ResolveField(() => Equipo)
