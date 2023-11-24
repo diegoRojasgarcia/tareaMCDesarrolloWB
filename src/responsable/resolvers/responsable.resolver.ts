@@ -16,10 +16,10 @@ export class ResponsableResolver {
   //   return this.responsableService.create(createResponsableInput);
   // }
 
-  @Query(() => [Responsable])
-  getResponsables() {
-    return this.responsableService.findAll();
-  }
+  // @Query(() => [Responsable])
+  // getResponsables() {
+  //   return this.responsableService.findAll();
+  // }
 
   // @Query(() => Responsable, { name: 'responsable' })
   // findOne(@Args('id', { type: () => Int }) id: number) {
