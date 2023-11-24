@@ -33,20 +33,15 @@ export class TareaResolver {
     return this.tareaService.findTareasByEquipoId(id);
   }
 
-  // @Query(() => Tarea, { name: 'tarea' })
-  // findOne(@Args('id', { type: () => Int }) id: number) {
-  //   return this.tareaService.findOne(id);
-  // }
+  @Query(() => Tarea)
+  findTareaOneById(@Args('id', { type: () => Int }) id: number) {
+    return this.tareaService.findOneById(id);
+  }
 
-  // @Mutation(() => Tarea)
-  // updateTarea(@Args('updateTareaInput') updateTareaInput: UpdateTareaInput) {
-  //   return this.tareaService.update(updateTareaInput.id, updateTareaInput);
-  // }
-
-  // @Mutation(() => Tarea)
-  // removeTarea(@Args('id', { type: () => Int }) id: number) {
-  //   return this.tareaService.remove(id);
-  // }
+  @Mutation(() => Tarea)
+  updateTarea(@Args('updateTareaInput') updateTareaInput: UpdateTareaInput) {
+    return this.tareaService.updateTarea(updateTareaInput);
+  }
 
   @ResolveField(() => Equipo)
   equipo(@Parent() tarea: Tarea): any {

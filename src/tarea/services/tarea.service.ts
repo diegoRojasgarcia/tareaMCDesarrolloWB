@@ -38,9 +38,24 @@ export class TareaService {
     return tareasByIdEquipo;
   }
 
-  // update(id: number, updateTareaInput: UpdateTareaInput) {
-  //   return `This action updates a #${id} tarea`;
-  // }
+  async updateTarea(updateTareaDto: UpdateTareaInput) {
+    const tarea = await this.tareaRepository.preload({
+      id: updateTareaDto.id,
+      ...updateTareaDto,
+    });
+
+    if (!tarea)
+      throw new NotFoundException(
+        `Tarea whit id: ${updateTareaDto.id} not found`,
+      );
+
+    try {
+      await this.tareaRepository.save(tarea);
+      return tarea;
+    } catch (error) {
+      return error;
+    }
+  }
 
   // remove(id: number) {
   //   return `This action removes a #${id} tarea`;
