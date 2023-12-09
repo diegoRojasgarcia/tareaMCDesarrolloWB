@@ -27,7 +27,7 @@ import { ResponsableModule } from './responsable/responsable.module';
       synchronize: true,
     }),
     TareaModule,
-    ResponsableModule,
+    // ResponsableModule,
   ],
   controllers: [],
   providers: [],

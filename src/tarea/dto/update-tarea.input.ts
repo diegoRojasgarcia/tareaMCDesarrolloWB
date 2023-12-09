@@ -1,14 +1,13 @@
-import { CreateTareaInput } from './create-tarea.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateTareaInput extends PartialType(CreateTareaInput) {
-  @Field(() => Int)
-  id: number;
-
+export class updateTareaDto {
   @Field()
   descripcion: string;
 
   @Field()
   estado: string;
+
+  @Field()
+  comentario: string;
 }

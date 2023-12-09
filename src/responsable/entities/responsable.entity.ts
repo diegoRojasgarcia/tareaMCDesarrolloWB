@@ -1,6 +1,13 @@
 import { ObjectType, Field, Int, Directive } from '@nestjs/graphql';
 import { Tarea } from 'src/tarea/entities/tarea.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Users } from './user.entity';
 
 @Entity()
 @ObjectType()
@@ -14,14 +21,14 @@ export class Responsable {
   @Field(() => Int)
   userId: number;
 
-  // @Field(() => Users)
-  // user: Users;
+  @Field(() => Users)
+  user: Users;
 
   @Column()
   @Field(() => Int)
   tareaId: number;
 
-  @ManyToOne(() => Tarea, (tarea) => tarea.responsables)
-  @Field(() => Tarea)
-  tarea: Tarea;
+  // @OneToOne(() => Tarea, (tarea) => tarea.responsable)
+  // @Field(() => Tarea)
+  // tarea: Tarea;
 }

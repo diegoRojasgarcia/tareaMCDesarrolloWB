@@ -1,6 +1,14 @@
 import { ObjectType, Field, Int, Directive } from '@nestjs/graphql';
 import { Responsable } from 'src/responsable/entities/responsable.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  OneToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Equipo } from './equipos.entity';
 
 @Entity()
@@ -11,17 +19,17 @@ export class Tarea {
   @Field(() => Int)
   id: number;
 
-  @Column()
+  @Column({ type: 'text' })
   @Field()
   descripcion: string;
 
-  @Column()
+  @Column({ type: 'text', default: 'Creada' })
   @Field()
-  estado: string;
+  estado?: String;
 
-  @OneToMany(() => Responsable, (responsables) => responsables.tarea)
-  @Field(() => [Responsable])
-  responsables?: Responsable[];
+  @Column({ nullable: true })
+  @Field(() => Int, { nullable: true })
+  idResponsable: number;
 
   @Column()
   @Field(() => Int)
@@ -29,4 +37,23 @@ export class Tarea {
 
   @Field(() => Equipo)
   equipo?: Equipo;
+
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  comentario?: string;
+
+  @CreateDateColumn({
+    type: 'date',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  @Field()
+  public created_at: Date;
+
+  @UpdateDateColumn({
+    type: 'date',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
+  })
+  @Field()
+  public updated_at: Date;
 }

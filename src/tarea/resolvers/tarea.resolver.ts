@@ -11,9 +11,9 @@ import {
 import { TareaService } from '../services/tarea.service';
 import { Tarea } from '../entities/tarea.entity';
 import { CreateTareaInput } from '../dto/create-tarea.input';
-import { UpdateTareaInput } from '../dto/update-tarea.input';
 import { Equipo } from '../entities/equipos.entity';
-import { Delete } from '@nestjs/common';
+import { findTareaDto } from '../dto/findtareaDto';
+import { updateTareaDto } from '../dto/update-tarea.input';
 
 @Resolver(() => Tarea)
 export class TareaResolver {
@@ -44,14 +44,29 @@ export class TareaResolver {
     return this.tareaService.findTareasByEstado(estado);
   }
 
-  @Mutation(() => Tarea)
-  updateTarea(@Args('updateTareaInput') updateTareaInput: UpdateTareaInput) {
-    return this.tareaService.updateTarea(updateTareaInput);
-  }
+  // @Mutation(() => Tarea)
+  // updateTarea(@Args('updateTareaInput') updateTareaInput: UpdateTareaInput) {
+  //   return this.tareaService.updateTarea(updateTareaInput);
+  // }
 
   @Mutation(() => Tarea)
-  removeTarea(@Args('id') id: number) {
-    return this.tareaService.remove(+id);
+  updateTarea(
+    @Args('findTareaByIdInput') findTareaByIdDto: findTareaDto,
+    @Args('updateTareaInput') updateTareaDto: updateTareaDto,
+  ): Promise<Tarea> {
+    return this.tareaService.updateTarea(findTareaByIdDto, updateTareaDto);
+  }
+
+  // @Mutation(() => Tarea)
+  // removeTarea(@Args('id') id: number) {
+  //   return this.tareaService.remove(+id);
+  // }
+
+  @Mutation(() => Tarea)
+  removeTarea(
+    @Args('findTareaByIdDto') findTareaByIdDto: findTareaDto,
+  ): Promise<Tarea> {
+    return this.tareaService.remove(findTareaByIdDto);
   }
 
   @ResolveField(() => Equipo)

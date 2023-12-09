@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTareaInput } from '../dto/create-tarea.input';
-import { UpdateTareaInput } from '../dto/update-tarea.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Tarea } from '../entities/tarea.entity';
+import { findTareaDto } from '../dto/findtareaDto';
+import { updateTareaDto } from '../dto/update-tarea.input';
 
 @Injectable()
 export class TareaService {
@@ -47,15 +48,18 @@ export class TareaService {
     return tareasByEstado;
   }
 
-  async updateTarea(updateTareaDto: UpdateTareaInput) {
+  async updateTarea(
+    findTareaByIdDto: findTareaDto,
+    updateTareaDto: updateTareaDto,
+  ) {
     const tarea = await this.tareaRepository.preload({
-      id: updateTareaDto.id,
+      id: findTareaByIdDto.id,
       ...updateTareaDto,
     });
 
     if (!tarea)
       throw new NotFoundException(
-        `Tarea whit id: ${updateTareaDto.id} not found`,
+        `Tarea whit id: ${findTareaByIdDto.id} not found`,
       );
 
     try {
@@ -66,11 +70,18 @@ export class TareaService {
     }
   }
 
-  async remove(id: number) {
-    const tarea = await this.findOneById(id);
-    if (!tarea) throw new NotFoundException('Tarea not found');
-    this.tareaRepository.remove(tarea);
-    return tarea;
+  async remove(findTareaByIdDto: findTareaDto) {
+    const tareaDB = await this.findOneById(findTareaByIdDto.id);
+    if (!tareaDB)
+      throw new NotFoundException(
+        'Error al eliminar la tarea, intentalo nuevamente.',
+      );
+    try {
+      this.tareaRepository.remove(tareaDB);
+      return tareaDB;
+    } catch (error) {
+      return error;
+    }
   }
 
   // async forProyectoId(proyectoId: number) {
