@@ -2,12 +2,12 @@ import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
 export class updateTareaDto {
-  @Field()
-  descripcion: string;
+  @Field({ nullable: true })
+  descripcion?: string;
 
-  @Field()
-  estado: string;
+  @Field({ nullable: true })
+  estado?: string;
 
-  @Field()
-  comentario: string;
+  @Field({ nullable: true })
+  comentario?: string;
 }
