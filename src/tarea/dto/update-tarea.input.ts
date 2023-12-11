@@ -7,7 +7,4 @@ export class updateTareaDto {
 
   @Field({ nullable: true })
   estado?: string;
-
-  @Field({ nullable: true })
-  comentario?: string;
 }

@@ -1,5 +1,4 @@
 import { ObjectType, Field, Int, Directive } from '@nestjs/graphql';
-import { Responsable } from 'src/responsable/entities/responsable.entity';
 import {
   Entity,
   Column,
@@ -10,6 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Equipo } from './equipos.entity';
+import { Comentario } from 'src/comentario/entities/comentario.entity';
 
 @Entity()
 @ObjectType()
@@ -38,16 +38,18 @@ export class Tarea {
   @Field(() => Equipo)
   equipo?: Equipo;
 
-  @Column({ nullable: true })
-  @Field({ nullable: true })
-  comentario?: string;
+  @Field(() => [Comentario], { nullable: true })
+  @OneToMany(() => Comentario, (comentario) => comentario.tarea, {
+    onDelete: 'CASCADE',
+  })
+  comentarios?: Comentario[];
 
   @CreateDateColumn({
     type: 'date',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   @Field()
-  public created_at: Date;
+  created_at: Date;
 
   @UpdateDateColumn({
     type: 'date',
@@ -55,5 +57,5 @@ export class Tarea {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   @Field()
-  public updated_at: Date;
+  updated_at: Date;
 }

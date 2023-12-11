@@ -19,7 +19,11 @@ export class TareaService {
   }
 
   findAll(): Promise<Tarea[]> {
-    return this.tareaRepository.find();
+    return this.tareaRepository.find({
+      relations: {
+        comentarios: true,
+      },
+    });
   }
 
   async findOneById(id: number) {

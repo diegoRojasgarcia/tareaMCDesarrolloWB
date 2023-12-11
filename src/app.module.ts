@@ -7,7 +7,7 @@ import {
   ApolloFederationDriver,
 } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ResponsableModule } from './responsable/responsable.module';
+import { ComentarioModule } from './comentario/comentario.module';
 
 @Module({
   imports: [
@@ -27,6 +27,7 @@ import { ResponsableModule } from './responsable/responsable.module';
       synchronize: true,
     }),
     TareaModule,
+    ComentarioModule,
     // ResponsableModule,
   ],
   controllers: [],

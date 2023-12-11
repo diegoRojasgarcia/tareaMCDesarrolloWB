@@ -17,9 +17,8 @@ import { EquipoResolver } from './resolvers/equipo.resolver';
       autoSchemaFile: { federation: 2 },
     }),
     TypeOrmModule.forFeature([Tarea]),
-    TareaModule,
   ],
   providers: [TareaResolver, TareaService, EquipoResolver],
-  exports: [TareaService],
+  exports: [TareaModule, TareaService],
 })
 export class TareaModule {}
