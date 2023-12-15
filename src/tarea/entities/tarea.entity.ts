@@ -49,7 +49,7 @@ export class Tarea {
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   @Field()
-  created_at: Date;
+  created: Date;
 
   @UpdateDateColumn({
     type: 'date',
@@ -57,5 +57,5 @@ export class Tarea {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   @Field()
-  updated_at: Date;
+  updated: Date;
 }
