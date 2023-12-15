@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConsoleLogger, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTareaInput } from '../dto/create-tarea.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -6,6 +6,7 @@ import { Tarea } from '../entities/tarea.entity';
 import { findTareaDto } from '../dto/findtareaDto';
 import { updateTareaDto } from '../dto/update-tarea.input';
 import { Comentario } from 'src/comentario/entities/comentario.entity';
+import { UpdateIntegranteDto } from '../dto/update-integranteDto';
 
 @Injectable()
 export class TareaService {
@@ -91,6 +92,24 @@ export class TareaService {
     try {
       await this.tareaRepository.save(tarea);
       return tarea;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async updateTareaIntegrante(
+    findTareaByIdDto: findTareaDto,
+    updateIntegranteDto: UpdateIntegranteDto,
+  ): Promise<Tarea> {
+    const tareaDB = await this.findOneById(findTareaByIdDto.id);
+    if (!tareaDB)
+      throw new NotFoundException(
+        `Tarea whit id: ${findTareaByIdDto.id} not found`,
+      );
+    tareaDB.idResponsable = updateIntegranteDto.idResponsable;
+    try {
+      await this.tareaRepository.save(tareaDB);
+      return tareaDB;
     } catch (error) {
       return error;
     }

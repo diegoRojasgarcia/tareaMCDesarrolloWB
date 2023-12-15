@@ -17,6 +17,7 @@ import { updateTareaDto } from '../dto/update-tarea.input';
 import { Comentario } from 'src/comentario/entities/comentario.entity';
 import { getComentariosByIdTareaDto } from 'src/comentario/dto/get.comentarioById.input';
 import { BadRequestException } from '@nestjs/common';
+import { UpdateIntegranteDto } from '../dto/update-integranteDto';
 
 @Resolver(() => Tarea)
 export class TareaResolver {
@@ -60,10 +61,16 @@ export class TareaResolver {
     return this.tareaService.updateTarea(findTareaByIdDto, updateTareaDto);
   }
 
-  // @Mutation(() => Tarea)
-  // removeTarea(@Args('id') id: number) {
-  //   return this.tareaService.remove(+id);
-  // }
+  @Mutation(() => Tarea)
+  updateTareaIntegrante(
+    @Args('findTareaByIdInput') findTareaByIdDto: findTareaDto,
+    @Args('updateIntegranteInput') updateIntegranteDto: UpdateIntegranteDto,
+  ): Promise<Tarea> {
+    return this.tareaService.updateTareaIntegrante(
+      findTareaByIdDto,
+      updateIntegranteDto,
+    );
+  }
 
   @Query(() => [Comentario])
   getComentariosbyIdTarea(
