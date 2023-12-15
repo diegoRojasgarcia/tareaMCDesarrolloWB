@@ -3,6 +3,9 @@ import { ComentarioService } from '../service/comentario.service';
 import { Comentario } from '../entities/comentario.entity';
 import { CreateComentarioInput } from '../dto/create-comentario.input';
 import { UpdateComentarioInput } from '../dto/update-comentario.input';
+import { DeletedComentarioInput } from '../dto/delete-comentario.input';
+import { getComentariosByIdTareaDto } from '../dto/get.comentarioById.input';
+import { BadRequestException } from '@nestjs/common';
 
 @Resolver(() => Comentario)
 export class ComentarioResolver {
@@ -25,8 +28,11 @@ export class ComentarioResolver {
   //   return this.comentarioService.update(updateComentarioInput.id, updateComentarioInput);
   // }
 
-  // @Mutation(() => Comentario)
-  // removeComentario(@Args('id', { type: () => Int }) id: number) {
-  //   return this.comentarioService.remove(id);
-  // }
+  @Mutation(() => Comentario)
+  removeComentario(
+    @Args('deleteComentarioInput')
+    deleteComentarioInput: DeletedComentarioInput,
+  ) {
+    return this.comentarioService.remove(deleteComentarioInput);
+  }
 }

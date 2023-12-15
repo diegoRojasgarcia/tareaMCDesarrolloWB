@@ -14,6 +14,9 @@ import { CreateTareaInput } from '../dto/create-tarea.input';
 import { Equipo } from '../entities/equipos.entity';
 import { findTareaDto } from '../dto/findtareaDto';
 import { updateTareaDto } from '../dto/update-tarea.input';
+import { Comentario } from 'src/comentario/entities/comentario.entity';
+import { getComentariosByIdTareaDto } from 'src/comentario/dto/get.comentarioById.input';
+import { BadRequestException } from '@nestjs/common';
 
 @Resolver(() => Tarea)
 export class TareaResolver {
@@ -61,6 +64,17 @@ export class TareaResolver {
   // removeTarea(@Args('id') id: number) {
   //   return this.tareaService.remove(+id);
   // }
+
+  @Query(() => [Comentario])
+  getComentariosbyIdTarea(
+    @Args('getComentariosbyIdTarea') data: getComentariosByIdTareaDto,
+  ): Promise<Comentario[]> {
+    try {
+      return this.tareaService.findComentariosByIdTarea(data);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
 
   @Mutation(() => Tarea)
   removeTarea(

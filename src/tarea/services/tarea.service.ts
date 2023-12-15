@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Tarea } from '../entities/tarea.entity';
 import { findTareaDto } from '../dto/findtareaDto';
 import { updateTareaDto } from '../dto/update-tarea.input';
+import { Comentario } from 'src/comentario/entities/comentario.entity';
 
 @Injectable()
 export class TareaService {
@@ -13,7 +14,7 @@ export class TareaService {
     private tareaRepository: Repository<Tarea>,
   ) {}
 
-  create(createTareaInput: CreateTareaInput) {
+  create(createTareaInput: CreateTareaInput): Promise<Tarea> {
     const newTarea = this.tareaRepository.create(createTareaInput);
     return this.tareaRepository.save(newTarea);
   }
@@ -34,6 +35,17 @@ export class TareaService {
     return tarea;
   }
 
+  async findOneByIdComentario(id: number) {
+    const tarea = await this.tareaRepository.findOne({
+      where: { id },
+      relations: {
+        comentarios: true,
+      },
+    });
+    if (!tarea) throw new NotFoundException('Tarea not found');
+    return tarea;
+  }
+
   async findTareasByEquipoId(id: number) {
     const tareas = this.findAll();
     const tareasByIdEquipo = (await tareas).filter(
@@ -41,6 +53,16 @@ export class TareaService {
     );
     if (!tareasByIdEquipo) return [];
     return tareasByIdEquipo;
+  }
+
+  async findComentariosByIdTarea(
+    getComentariosByIdTareaDto,
+  ): Promise<Comentario[]> {
+    const { id } = getComentariosByIdTareaDto;
+    try {
+      const tarea = await this.findOneByIdComentario(id);
+      return tarea.comentarios;
+    } catch (error) {}
   }
 
   async findTareasByEstado(estado: string) {
