@@ -9,7 +9,7 @@ export class EquipoResolver {
   constructor(private readonly tareaService: TareaService) {}
 
   @ResolveField(() => [Tarea])
-  tareas(@Parent() equipo: Equipo) {
+  tareas(@Parent() equipo: Equipo): Promise<Tarea[]> {
     return this.tareaService.forEquipoId(equipo.id);
   }
 }
