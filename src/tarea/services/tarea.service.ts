@@ -28,7 +28,7 @@ export class TareaService {
     });
   }
 
-  async findOneById(id: number) {
+  async findOneById(id: number): Promise<Tarea> {
     const tarea = await this.tareaRepository.findOne({
       where: { id },
     });
@@ -36,7 +36,7 @@ export class TareaService {
     return tarea;
   }
 
-  async findOneByIdComentario(id: number) {
+  async findOneByIdComentario(id: number): Promise<Tarea> {
     const tarea = await this.tareaRepository.findOne({
       where: { id },
       relations: {
@@ -47,7 +47,7 @@ export class TareaService {
     return tarea;
   }
 
-  async findTareasByEquipoId(id: number) {
+  async findTareasByEquipoId(id: number): Promise<Tarea[]> {
     const tareas = this.findAll();
     const tareasByIdEquipo = (await tareas).filter(
       (tareas) => tareas.idEquipo === id,
@@ -66,7 +66,7 @@ export class TareaService {
     } catch (error) {}
   }
 
-  async findTareasByEstado(estado: string) {
+  async findTareasByEstado(estado: string): Promise<Tarea[]> {
     const tareas = this.findAll();
     const tareasByEstado = (await tareas).filter(
       (tareas) => tareas.estado === estado,
@@ -78,7 +78,7 @@ export class TareaService {
   async updateTarea(
     findTareaByIdDto: findTareaDto,
     updateTareaDto: updateTareaDto,
-  ) {
+  ): Promise<Tarea> {
     const tarea = await this.tareaRepository.preload({
       id: findTareaByIdDto.id,
       ...updateTareaDto,
@@ -115,7 +115,7 @@ export class TareaService {
     }
   }
 
-  async remove(findTareaByIdDto: findTareaDto) {
+  async remove(findTareaByIdDto: findTareaDto): Promise<Tarea> {
     const tareaDB = await this.findOneById(findTareaByIdDto.id);
     if (!tareaDB)
       throw new NotFoundException(
@@ -129,13 +129,7 @@ export class TareaService {
     }
   }
 
-  // async forProyectoId(proyectoId: number) {
-  //   const equipos = await this.equipoRepository.find();
-  //   if (!equipos) return [];
-  //   return equipos.filter((equipos) => equipos.idProyecto === proyectoId);
-  // }
-
-  async forEquipoId(equipoId: number) {
+  async forEquipoId(equipoId: number): Promise<Tarea[]> {
     const tareas = await this.tareaRepository.find();
     if (!tareas) return [];
     return tareas.filter((tareas) => tareas.idEquipo === equipoId);

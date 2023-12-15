@@ -13,7 +13,9 @@ export class ComentarioService {
     private readonly tareaService: TareaService,
   ) {}
 
-  async create(createComentarioInput: CreateComentarioInput) {
+  async create(
+    createComentarioInput: CreateComentarioInput,
+  ): Promise<Comentario> {
     const { idTarea, comentario } = createComentarioInput;
     const tareaDB = await this.tareaService.findOneById(idTarea);
     const comentarioCreated = new Comentario();

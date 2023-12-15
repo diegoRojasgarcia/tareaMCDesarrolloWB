@@ -24,27 +24,31 @@ export class TareaResolver {
   constructor(private readonly tareaService: TareaService) {}
 
   @Mutation(() => Tarea)
-  createTarea(@Args('createTareaInput') createTareaInput: CreateTareaInput) {
+  createTarea(
+    @Args('createTareaInput') createTareaInput: CreateTareaInput,
+  ): Promise<Tarea> {
     return this.tareaService.create(createTareaInput);
   }
 
   @Query(() => [Tarea])
-  getTareas() {
+  getTareas(): Promise<Tarea[]> {
     return this.tareaService.findAll();
   }
 
   @Query(() => [Tarea])
-  getTareasbyEquipoId(@Args('id', { type: () => Int }) id: number) {
+  getTareasbyEquipoId(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<Tarea[]> {
     return this.tareaService.findTareasByEquipoId(id);
   }
 
   @Query(() => Tarea)
-  getTareaById(@Args('id', { type: () => Int }) id: number) {
+  getTareaById(@Args('id', { type: () => Int }) id: number): Promise<Tarea> {
     return this.tareaService.findOneById(id);
   }
 
-  @Query(() => Tarea)
-  getTareaByEstado(@Args('estado') estado: string) {
+  @Query(() => [Tarea])
+  getTareaByEstado(@Args('estado') estado: string): Promise<Tarea[]> {
     return this.tareaService.findTareasByEstado(estado);
   }
 

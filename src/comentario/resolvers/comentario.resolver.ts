@@ -14,25 +14,15 @@ export class ComentarioResolver {
   @Mutation(() => Comentario)
   createComentario(
     @Args('createComentarioInput') createComentarioInput: CreateComentarioInput,
-  ) {
+  ): Promise<Comentario> {
     return this.comentarioService.create(createComentarioInput);
   }
-
-  // @Query(() => Comentario, { name: 'comentario' })
-  // findOne(@Args('id', { type: () => Int }) id: number) {
-  //   return this.comentarioService.findOne(id);
-  // }
-
-  // @Mutation(() => Comentario)
-  // updateComentario(@Args('updateComentarioInput') updateComentarioInput: UpdateComentarioInput) {
-  //   return this.comentarioService.update(updateComentarioInput.id, updateComentarioInput);
-  // }
 
   @Mutation(() => Comentario)
   removeComentario(
     @Args('deleteComentarioInput')
     deleteComentarioInput: DeletedComentarioInput,
-  ) {
+  ): Promise<Comentario> {
     return this.comentarioService.remove(deleteComentarioInput);
   }
 }
