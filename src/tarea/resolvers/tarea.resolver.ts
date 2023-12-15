@@ -27,42 +27,61 @@ export class TareaResolver {
   createTarea(
     @Args('createTareaInput') createTareaInput: CreateTareaInput,
   ): Promise<Tarea> {
-    return this.tareaService.create(createTareaInput);
+    try {
+      return this.tareaService.create(createTareaInput);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Query(() => [Tarea])
   getTareas(): Promise<Tarea[]> {
-    return this.tareaService.findAll();
+    try {
+      return this.tareaService.findAll();
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Query(() => [Tarea])
   getTareasbyEquipoId(
     @Args('id', { type: () => Int }) id: number,
   ): Promise<Tarea[]> {
-    return this.tareaService.findTareasByEquipoId(id);
+    try {
+      return this.tareaService.findTareasByEquipoId(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Query(() => Tarea)
   getTareaById(@Args('id', { type: () => Int }) id: number): Promise<Tarea> {
-    return this.tareaService.findOneById(id);
+    try {
+      return this.tareaService.findOneById(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Query(() => [Tarea])
   getTareaByEstado(@Args('estado') estado: string): Promise<Tarea[]> {
-    return this.tareaService.findTareasByEstado(estado);
+    try {
+      return this.tareaService.findTareasByEstado(estado);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
-
-  // @Mutation(() => Tarea)
-  // updateTarea(@Args('updateTareaInput') updateTareaInput: UpdateTareaInput) {
-  //   return this.tareaService.updateTarea(updateTareaInput);
-  // }
 
   @Mutation(() => Tarea)
   updateTarea(
     @Args('findTareaByIdInput') findTareaByIdDto: findTareaDto,
     @Args('updateTareaInput') updateTareaDto: updateTareaDto,
   ): Promise<Tarea> {
-    return this.tareaService.updateTarea(findTareaByIdDto, updateTareaDto);
+    try {
+      return this.tareaService.updateTarea(findTareaByIdDto, updateTareaDto);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Mutation(() => Tarea)
@@ -70,10 +89,14 @@ export class TareaResolver {
     @Args('findTareaByIdInput') findTareaByIdDto: findTareaDto,
     @Args('updateIntegranteInput') updateIntegranteDto: UpdateIntegranteDto,
   ): Promise<Tarea> {
-    return this.tareaService.updateTareaIntegrante(
-      findTareaByIdDto,
-      updateIntegranteDto,
-    );
+    try {
+      return this.tareaService.updateTareaIntegrante(
+        findTareaByIdDto,
+        updateIntegranteDto,
+      );
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @Query(() => [Comentario])
@@ -91,16 +114,28 @@ export class TareaResolver {
   removeTarea(
     @Args('findTareaByIdDto') findTareaByIdDto: findTareaDto,
   ): Promise<Tarea> {
-    return this.tareaService.remove(findTareaByIdDto);
+    try {
+      return this.tareaService.remove(findTareaByIdDto);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @ResolveField(() => Equipo)
   equipo(@Parent() tarea: Tarea): any {
-    return { __typename: 'Tarea', id: tarea.idEquipo };
+    try {
+      return { __typename: 'Tarea', id: tarea.idEquipo };
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 
   @ResolveReference()
   resolveReference(reference: { __typename: string; id: number }) {
-    return this.tareaService.findOneById(reference.id);
+    try {
+      return this.tareaService.findOneById(reference.id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }
